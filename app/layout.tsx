@@ -1,18 +1,22 @@
-import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
-import './globals.css'
+import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
-}
+  title: "ISO 8583 Simulator",
+  description: "Created with React, Next.js, and Tailwind CSS",
+  generator: "React, Next.js, and Tailwind CSS",
+  icons: {
+    icon: "/swipe-card.png",
+    apple: "/swipe-card.png",
+  },
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -27,5 +31,5 @@ html {
       </head>
       <body>{children}</body>
     </html>
-  )
+  );
 }

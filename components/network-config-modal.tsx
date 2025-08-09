@@ -1,107 +1,132 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Network, Wifi, WifiOff, Loader2 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Network, Wifi, WifiOff, Loader2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export interface NetworkConfig {
-  enabled: boolean
-  host: string
-  port: string
-  timeout: number
-  useSSL: boolean
+  enabled: boolean;
+  host: string;
+  port: string;
+  timeout: number;
+  useSSL: boolean;
 }
 
 interface NetworkConfigModalProps {
-  isOpen: boolean
-  onClose: () => void
-  config: NetworkConfig
-  onSave: (config: NetworkConfig) => void
+  isOpen: boolean;
+  onClose: () => void;
+  config: NetworkConfig;
+  onSave: (config: NetworkConfig) => void;
 }
 
-export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkConfigModalProps) {
-  const [localConfig, setLocalConfig] = useState<NetworkConfig>({ ...config })
-  const [isTesting, setIsTesting] = useState(false)
-  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null)
+export function NetworkConfigModal({
+  isOpen,
+  onClose,
+  config,
+  onSave,
+}: NetworkConfigModalProps) {
+  const [localConfig, setLocalConfig] = useState<NetworkConfig>({ ...config });
+  const [isTesting, setIsTesting] = useState(false);
+  const [testResult, setTestResult] = useState<{
+    success: boolean;
+    message: string;
+  } | null>(null);
 
   const handleChange = (field: keyof NetworkConfig, value: any) => {
-    setLocalConfig((prev) => ({ ...prev, [field]: value }))
-  }
+    setLocalConfig((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSave = () => {
-    onSave(localConfig)
-    onClose()
-  }
+    onSave(localConfig);
+    onClose();
+  };
 
   const testConnection = async () => {
     if (!localConfig.enabled) {
       setTestResult({
         success: false,
         message: "Network mode is disabled. Enable it to test the connection.",
-      })
-      return
+      });
+      return;
     }
 
-    setIsTesting(true)
-    setTestResult(null)
+    setIsTesting(true);
+    setTestResult(null);
 
     try {
-      const protocol = localConfig.useSSL ? "https" : "http"
-      const url = `${protocol}://${localConfig.host}:${localConfig.port}/health`
+      const protocol = localConfig.useSSL ? "https" : "http";
+      const url = `${protocol}://${localConfig.host}:${localConfig.port}/health`;
 
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), localConfig.timeout)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(
+        () => controller.abort(),
+        localConfig.timeout
+      );
 
       const response = await fetch(url, {
         method: "GET",
         signal: controller.signal,
-      })
+      });
 
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         setTestResult({
           success: true,
           message: `Connection successful! Server responded with status ${response.status}.`,
-        })
+        });
       } else {
         setTestResult({
           success: false,
           message: `Server responded with status ${response.status}: ${response.statusText}`,
-        })
+        });
       }
     } catch (error: any) {
       if (error.name === "AbortError") {
         setTestResult({
           success: false,
           message: `Connection timed out after ${localConfig.timeout}ms.`,
-        })
+        });
       } else {
         setTestResult({
           success: false,
           message: `Connection failed: ${error.message || "Unknown error"}`,
-        })
+        });
       }
     } finally {
-      setIsTesting(false)
+      setIsTesting(false);
     }
-  }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+      <DialogContent
+        className={cn(
+          "p-4 w-full max-w-none left-0 right-0 bottom-0 top-auto translate-x-0 translate-y-0 rounded-t-2xl overflow-y-auto max-h-[85vh]",
+          "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
+          "sm:p-6 sm:max-w-[500px] sm:left-1/2 sm:top-1/2 sm:bottom-auto sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg sm:overflow-visible sm:max-h-none"
+        )}
+      >
+        <DialogHeader className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 pb-2">
           <DialogTitle className="flex items-center">
             <Network className="h-5 w-5 mr-2" />
             Network Configuration
           </DialogTitle>
           <DialogDescription>
-            Configure network settings for sending ISO 8583 transactions to a real server.
+            Configure network settings for sending ISO 8583 transactions to a
+            real server.
           </DialogDescription>
         </DialogHeader>
 
@@ -122,7 +147,7 @@ export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkC
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="host">Host/IP Address</Label>
               <Input
@@ -145,26 +170,34 @@ export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkC
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="timeout">Timeout (ms)</Label>
               <Input
                 id="timeout"
                 type="number"
                 value={localConfig.timeout}
-                onChange={(e) => handleChange("timeout", Number.parseInt(e.target.value) || 5000)}
+                onChange={(e) =>
+                  handleChange(
+                    "timeout",
+                    Number.parseInt(e.target.value) || 5000
+                  )
+                }
                 placeholder="5000"
                 disabled={!localConfig.enabled}
               />
             </div>
-            <div className="flex items-center space-x-2 pt-8">
+            <div className="flex items-center space-x-2 sm:pt-8 pt-0">
               <Switch
                 id="ssl"
                 checked={localConfig.useSSL}
                 onCheckedChange={(checked) => handleChange("useSSL", checked)}
                 disabled={!localConfig.enabled}
               />
-              <Label htmlFor="ssl" className={!localConfig.enabled ? "text-gray-500" : ""}>
+              <Label
+                htmlFor="ssl"
+                className={!localConfig.enabled ? "text-gray-500" : ""}
+              >
                 Use SSL/HTTPS
               </Label>
             </div>
@@ -173,7 +206,9 @@ export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkC
           {testResult && (
             <div
               className={`p-3 rounded-md ${
-                testResult.success ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"
+                testResult.success
+                  ? "bg-green-50 border border-green-200"
+                  : "bg-red-50 border border-red-200"
               }`}
             >
               <div className="flex items-center">
@@ -182,13 +217,24 @@ export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkC
                 ) : (
                   <WifiOff className="h-4 w-4 text-red-600 mr-2" />
                 )}
-                <span className={testResult.success ? "text-green-700" : "text-red-700"}>{testResult.message}</span>
+                <span
+                  className={
+                    testResult.success ? "text-green-700" : "text-red-700"
+                  }
+                >
+                  {testResult.message}
+                </span>
               </div>
             </div>
           )}
 
-          <div className="flex justify-between pt-4">
-            <Button variant="outline" onClick={testConnection} disabled={isTesting || !localConfig.enabled}>
+          <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <Button
+              className="w-full sm:w-auto"
+              variant="outline"
+              onClick={testConnection}
+              disabled={isTesting || !localConfig.enabled}
+            >
               {isTesting ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -201,24 +247,37 @@ export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkC
                 </>
               )}
             </Button>
-            <div className="space-x-2">
-              <Button variant="outline" onClick={onClose}>
+            <div className="flex w-full sm:w-auto gap-2 sm:gap-2 sm:flex-row flex-col">
+              <Button
+                className="w-full sm:w-auto"
+                variant="outline"
+                onClick={onClose}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSave}>Save Configuration</Button>
+              <Button className="w-full sm:w-auto" onClick={handleSave}>
+                Save Configuration
+              </Button>
             </div>
           </div>
 
           <div className="pt-2">
             <div className="flex items-center space-x-2">
-              <Badge variant={localConfig.enabled ? "success" : "outline"} className="text-xs">
+              <Badge
+                variant="outline"
+                className={cn(
+                  "text-xs",
+                  localConfig.enabled &&
+                    "bg-green-50 border border-green-200 text-green-700"
+                )}
+              >
                 {localConfig.enabled ? "Network Mode" : "Simulation Mode"}
               </Badge>
               <span className="text-sm text-gray-500">
                 {localConfig.enabled
-                  ? `Transactions will be sent to ${localConfig.useSSL ? "https" : "http"}://${localConfig.host}:${
-                      localConfig.port
-                    }`
+                  ? `Transactions will be sent to ${
+                      localConfig.useSSL ? "https" : "http"
+                    }://${localConfig.host}:${localConfig.port}`
                   : "Transactions will be simulated locally"}
               </span>
             </div>
@@ -226,5 +285,5 @@ export function NetworkConfigModal({ isOpen, onClose, config, onSave }: NetworkC
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

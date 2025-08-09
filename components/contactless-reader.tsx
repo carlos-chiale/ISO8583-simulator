@@ -1,29 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { CreditCard, Wifi } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { CreditCard, Wifi } from "lucide-react";
 
 interface ContactlessReaderProps {
-  onTap: () => void
+  onTap: () => void;
 }
 
 export function ContactlessReader({ onTap }: ContactlessReaderProps) {
-  const [tapped, setTapped] = useState(false)
-  const [showWaves, setShowWaves] = useState(false)
+  const [tapped, setTapped] = useState(false);
+  const [showWaves, setShowWaves] = useState(false);
 
   const handleTap = () => {
     if (!tapped) {
-      setTapped(true)
-      setShowWaves(true)
+      setTapped(true);
+      setShowWaves(true);
 
-      // Hide waves after animation
       setTimeout(() => {
-        setShowWaves(false)
-        onTap()
-      }, 1000)
+        setShowWaves(false);
+        onTap();
+      }, 1000);
     }
-  }
+  };
 
   const waveVariants = {
     animate: (i: number) => ({
@@ -35,7 +34,7 @@ export function ContactlessReader({ onTap }: ContactlessReaderProps) {
         repeat: 0,
       },
     }),
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -99,5 +98,5 @@ export function ContactlessReader({ onTap }: ContactlessReaderProps) {
         <p>{tapped ? "Card tapped" : "Click the card to tap it"}</p>
       </div>
     </div>
-  )
+  );
 }

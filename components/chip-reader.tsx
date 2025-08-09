@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { CreditCard } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { CreditCard } from "lucide-react";
 
 interface ChipReaderProps {
-  onInsert: () => void
+  onInsert: () => void;
 }
 
 export function ChipReader({ onInsert }: ChipReaderProps) {
-  const [inserted, setInserted] = useState(false)
+  const [inserted, setInserted] = useState(false);
 
   const handleInsert = () => {
     if (!inserted) {
-      setInserted(true)
-      onInsert()
+      setInserted(true);
+      onInsert();
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -62,5 +62,5 @@ export function ChipReader({ onInsert }: ChipReaderProps) {
         <p>{inserted ? "Card inserted" : "Click the card to insert it"}</p>
       </div>
     </div>
-  )
+  );
 }

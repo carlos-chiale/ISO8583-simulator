@@ -1,18 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Loader2 } from "lucide-react"
-import type { Transaction } from "@/lib/types"
-import { CreditCard, Building, Calendar } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2 } from "lucide-react";
+import type { Transaction } from "@/lib/types";
+import { CreditCard, Building, Calendar } from "lucide-react";
 
-// Add currency options with Uruguayan Pesos as second option
 const currencies = [
   { code: "USD", symbol: "$", numeric: "840", name: "US Dollar" },
   { code: "UYU", symbol: "$U", numeric: "858", name: "Uruguayan Peso" },
@@ -25,9 +30,8 @@ const currencies = [
   { code: "CNY", symbol: "¥", numeric: "156", name: "Chinese Yuan" },
   { code: "INR", symbol: "₹", numeric: "356", name: "Indian Rupee" },
   { code: "BRL", symbol: "R$", numeric: "986", name: "Brazilian Real" },
-]
+];
 
-// Entry mode options
 const entryModes = [
   { value: "021", label: "Manual Entry" },
   { value: "022", label: "Magnetic Stripe" },
@@ -35,18 +39,20 @@ const entryModes = [
   { value: "071", label: "Contactless" },
   { value: "079", label: "Contactless EMV" },
   { value: "080", label: "Fallback to Magnetic Stripe" },
-]
+];
 
-// Default EMV tags
 const DEFAULT_EMV_TAGS =
-  "9F26:08A000000000000000,9F27:01,9F10:06010A03A0A000,9F37:04A54F5D1E,9F36:02000A,95:0500000000,9A:03230215,9C:01,9F02:06000000000100,9F03:06000000000000"
+  "9F26:08A000000000000000,9F27:01,9F10:06010A03A0A000,9F37:04A54F5D1E,9F36:02000A,95:0500000000,9A:03230215,9C:01,9F02:06000000000100,9F03:06000000000000";
 
 interface TransactionFormProps {
-  onSubmit: (transaction: Transaction) => void
-  isProcessing?: boolean
+  onSubmit: (transaction: Transaction) => void;
+  isProcessing?: boolean;
 }
 
-export function TransactionForm({ onSubmit, isProcessing = false }: TransactionFormProps) {
+export function TransactionForm({
+  onSubmit,
+  isProcessing = false,
+}: TransactionFormProps) {
   const [formData, setFormData] = useState<Transaction>({
     messageType: "0200",
     processingCode: "000000",
@@ -56,34 +62,32 @@ export function TransactionForm({ onSubmit, isProcessing = false }: TransactionF
     merchantId: "123456789012",
     terminalId: "12345678",
     transactionType: "purchase",
-    currency: "USD", // Default currency
+    currency: "USD",
     timestamp: new Date(),
-    entryMode: "051", // Default to EMV
-    emvTags: DEFAULT_EMV_TAGS, // Default EMV tags
-  })
+    entryMode: "051",
+    emvTags: DEFAULT_EMV_TAGS,
+  });
 
-  const [includeEmvTags, setIncludeEmvTags] = useState(true)
+  const [includeEmvTags, setIncludeEmvTags] = useState(true);
 
   const handleChange = (field: keyof Transaction, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    // Prepare transaction data
     const transactionData = {
       ...formData,
-      source: "form",
-      // Only include EMV tags if the checkbox is checked
+      source: "form" as const,
       emvTags: includeEmvTags ? formData.emvTags : undefined,
-    }
+    };
 
-    onSubmit(transactionData)
-  }
+    onSubmit(transactionData);
+  };
 
-  // Find the current currency symbol
-  const currencySymbol = currencies.find((c) => c.code === formData.currency)?.symbol || "$"
+  const currencySymbol =
+    currencies.find((c) => c.code === formData.currency)?.symbol || "$";
 
   return (
     <div>
@@ -131,7 +135,9 @@ export function TransactionForm({ onSubmit, isProcessing = false }: TransactionF
           <div className="space-y-2">
             <Label htmlFor="amount">Amount</Label>
             <div className="relative">
-              <div className="absolute left-3 top-3 h-4 w-4 text-gray-500">{currencySymbol}</div>
+              <div className="absolute left-3 top-3 h-4 w-4 text-gray-500">
+                {currencySymbol}
+              </div>
               <Input
                 id="amount"
                 type="text"
@@ -267,7 +273,9 @@ export function TransactionForm({ onSubmit, isProcessing = false }: TransactionF
             className="font-mono text-xs"
             disabled={!includeEmvTags || isProcessing}
           />
-          <p className="text-xs text-gray-500">Format: Tag:Value,Tag:Value (e.g., 9F26:08A000000000000000)</p>
+          <p className="text-xs text-gray-500">
+            Format: Tag:Value,Tag:Value (e.g., 9F26:08A000000000000000)
+          </p>
         </div>
 
         <Button type="submit" className="w-full" disabled={isProcessing}>
@@ -282,5 +290,5 @@ export function TransactionForm({ onSubmit, isProcessing = false }: TransactionF
         </Button>
       </form>
     </div>
-  )
+  );
 }

@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
-import { motion, useMotionValue, useTransform } from "framer-motion"
-import { CreditCard } from "lucide-react"
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { CreditCard } from "lucide-react";
 
 interface CardSwipeProps {
-  onSwipe: () => void
+  onSwipe: () => void;
 }
 
 export function CardSwipe({ onSwipe }: CardSwipeProps) {
-  const [swiped, setSwiped] = useState(false)
-  const constraintsRef = useRef(null)
-  const x = useMotionValue(0)
-  const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0])
+  const [swiped, setSwiped] = useState(false);
+  const constraintsRef = useRef(null);
+  const x = useMotionValue(0);
+  const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0]);
 
   const handleDragEnd = (event: any, info: any) => {
     if (Math.abs(info.offset.x) > 100) {
-      setSwiped(true)
-      onSwipe()
+      setSwiped(true);
+      onSwipe();
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -66,5 +66,5 @@ export function CardSwipe({ onSwipe }: CardSwipeProps) {
         <p>Drag the card to the left or right to swipe</p>
       </div>
     </div>
-  )
+  );
 }

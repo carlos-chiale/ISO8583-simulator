@@ -1,50 +1,56 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Loader2 } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Loader2 } from "lucide-react";
 
 export function MessageViewer({
   message,
   response,
   isProcessing = false,
 }: {
-  message: { formatted: string; wire: string } | null
-  response: { formatted: string; wire: string } | null
-  isProcessing?: boolean
+  message: { formatted: string; wire: string } | null;
+  response: { formatted: string; wire: string } | null;
+  isProcessing?: boolean;
 }) {
-  // Function to format EMV tags for better readability
   const formatEmvTags = (text: string): string => {
-    if (!text) return text
+    if (!text) return text;
 
-    // Find Field 055 (EMV tags) in the message
-    const emvTagsMatch = text.match(/Field 055: (.*?)(?:\n|$)/)
-    if (!emvTagsMatch || !emvTagsMatch[1]) return text
+    const emvTagsMatch = text.match(/Field 055: (.*?)(?:\n|$)/);
+    if (!emvTagsMatch || !emvTagsMatch[1]) return text;
 
-    const emvTagsRaw = emvTagsMatch[1]
+    const emvTagsRaw = emvTagsMatch[1];
 
-    // If there are no EMV tags or they're empty, return the original text
-    if (!emvTagsRaw || emvTagsRaw.trim() === "") return text
+    if (!emvTagsRaw || emvTagsRaw.trim() === "") return text;
 
-    // Split the EMV tags by comma and format each tag
     const formattedTags = emvTagsRaw
       .split(",")
       .map((tag) => {
-        const [tagId, value] = tag.split(":")
-        if (!tagId || !value) return tag
-        return `    ${tagId}: ${value}`
+        const [tagId, value] = tag.split(":");
+        if (!tagId || !value) return tag;
+        return `    ${tagId}: ${value}`;
       })
-      .join("\n")
+      .join("\n");
 
-    // Replace the original EMV tags line with the formatted version
-    return text.replace(/Field 055: (.*?)(?:\n|$)/, `Field 055 (EMV Tags):\n${formattedTags}\n`)
-  }
+    return text.replace(
+      /Field 055: (.*?)(?:\n|$)/,
+      `Field 055 (EMV Tags):\n${formattedTags}\n`
+    );
+  };
 
   return (
     <Card className="h-full">
       <CardHeader>
         <CardTitle>ISO 8583 Messages</CardTitle>
-        <CardDescription>View the raw ISO 8583 message and response</CardDescription>
+        <CardDescription>
+          View the raw ISO 8583 message and response
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
@@ -62,7 +68,9 @@ export function MessageViewer({
                 </TabsList>
                 <TabsContent value="formatted">
                   <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm">
-                    <pre className="whitespace-pre-wrap">{formatEmvTags(message.formatted)}</pre>
+                    <pre className="whitespace-pre-wrap">
+                      {formatEmvTags(message.formatted)}
+                    </pre>
                   </ScrollArea>
                 </TabsContent>
                 <TabsContent value="wire">
@@ -73,7 +81,8 @@ export function MessageViewer({
               </Tabs>
             ) : (
               <div className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm flex items-center justify-center text-gray-400">
-                No message generated yet. Submit a transaction to see the ISO 8583 message.
+                No message generated yet. Submit a transaction to see the ISO
+                8583 message.
               </div>
             )}
           </div>
@@ -97,7 +106,9 @@ export function MessageViewer({
                 </TabsList>
                 <TabsContent value="formatted">
                   <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm">
-                    <pre className="whitespace-pre-wrap">{formatEmvTags(response.formatted)}</pre>
+                    <pre className="whitespace-pre-wrap">
+                      {formatEmvTags(response.formatted)}
+                    </pre>
                   </ScrollArea>
                 </TabsContent>
                 <TabsContent value="wire">
@@ -115,5 +126,5 @@ export function MessageViewer({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

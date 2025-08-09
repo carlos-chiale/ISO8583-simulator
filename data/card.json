@@ -1,0 +1,62 @@
+[
+  {
+    "id": "visa-credit",
+    "name": "VISA Credit",
+    "type": "credit",
+    "network": "visa",
+    "number": "4111111111111111",
+    "expiryDate": "1225",
+    "pin": "1234",
+    "color": "from-blue-500 to-blue-700"
+  },
+  {
+    "id": "visa-debit",
+    "name": "VISA Debit",
+    "type": "debit",
+    "network": "visa",
+    "number": "4000123456789010",
+    "expiryDate": "0326",
+    "pin": "5678",
+    "color": "from-blue-400 to-green-600"
+  },
+  {
+    "id": "mastercard-credit",
+    "name": "Mastercard Credit",
+    "type": "credit",
+    "network": "mastercard",
+    "number": "5555555555554444",
+    "expiryDate": "0924",
+    "pin": "9012",
+    "color": "from-red-500 to-orange-500"
+  },
+  {
+    "id": "mastercard-debit",
+    "name": "Mastercard Debit",
+    "type": "debit",
+    "network": "mastercard",
+    "number": "5200828282828210",
+    "expiryDate": "0725",
+    "pin": "3456",
+    "color": "from-red-400 to-yellow-500"
+  },
+  {
+    "id": "amex",
+    "name": "American Express",
+    "type": "credit",
+    "network": "amex",
+    "number": "378282246310005",
+    "expiryDate": "0926",
+    "pin": "7890",
+    "color": "from-blue-600 to-blue-900"
+  },
+  {
+    "id": "discover",
+    "name": "Discover",
+    "type": "credit",
+    "network": "discover",
+    "number": "6011111111111117",
+    "expiryDate": "0427",
+    "pin": "4321",
+    "color": "from-orange-500 to-orange-700"
+  }
+]
