@@ -7,7 +7,7 @@ import {
   cardOptions,
 } from "@/components/card-selection-dialog";
 import { Button } from "@/components/ui/button";
-import { Wallet } from "lucide-react";
+import { Wallet, Github } from "lucide-react";
 import type { NetworkConfig } from "@/lib/network-service";
 
 interface HeaderProps {
@@ -83,6 +83,18 @@ export function Header({ onTerminalTransaction, networkConfig }: HeaderProps) {
               selectedCard={selectedCard}
               networkConfig={networkConfig}
             />
+            <Button asChild variant="outline" className="h-9 px-2 sm:px-3">
+              <a
+                href="https://github.com/carlos-chiale/ISO8583-simulator"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open GitHub repository"
+                className="flex items-center gap-2"
+              >
+                <Github className="h-4 w-4" aria-hidden="true" />
+                <span className="hidden sm:inline">Check out the code!!</span>
+              </a>
+            </Button>
           </div>
         </div>
       </header>
