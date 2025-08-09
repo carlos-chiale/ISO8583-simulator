@@ -67,20 +67,20 @@ export function MessageViewer({
                   <TabsTrigger value="wire">Wire Format</TabsTrigger>
                 </TabsList>
                 <TabsContent value="formatted">
-                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm">
+                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm">
                     <pre className="whitespace-pre-wrap">
                       {formatEmvTags(message.formatted)}
                     </pre>
                   </ScrollArea>
                 </TabsContent>
                 <TabsContent value="wire">
-                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm">
+                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm">
                     <div className="break-all">{message.wire}</div>
                   </ScrollArea>
                 </TabsContent>
               </Tabs>
             ) : (
-              <div className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm flex items-center justify-center text-gray-400">
+              <div className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm flex items-center justify-center text-muted-foreground">
                 No message generated yet. Submit a transaction to see the ISO
                 8583 message.
               </div>
@@ -94,7 +94,7 @@ export function MessageViewer({
             </div>
 
             {isProcessing ? (
-              <div className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm flex flex-col items-center justify-center text-gray-600">
+              <div className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm flex flex-col items-center justify-center text-muted-foreground">
                 <Loader2 className="h-8 w-8 animate-spin mb-2" />
                 <p>Processing transaction...</p>
               </div>
@@ -105,20 +105,20 @@ export function MessageViewer({
                   <TabsTrigger value="wire">Wire Format</TabsTrigger>
                 </TabsList>
                 <TabsContent value="formatted">
-                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm">
+                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm">
                     <pre className="whitespace-pre-wrap">
                       {formatEmvTags(response.formatted)}
                     </pre>
                   </ScrollArea>
                 </TabsContent>
                 <TabsContent value="wire">
-                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm">
+                  <ScrollArea className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm">
                     <div className="break-all">{response.wire}</div>
                   </ScrollArea>
                 </TabsContent>
               </Tabs>
             ) : (
-              <div className="h-[180px] w-full rounded-md border p-4 bg-gray-50 font-mono text-sm flex items-center justify-center text-gray-400">
+              <div className="h-[180px] w-full rounded-md border p-4 bg-muted font-mono text-sm flex items-center justify-center text-muted-foreground">
                 No response received yet.
               </div>
             )}

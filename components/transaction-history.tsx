@@ -17,7 +17,7 @@ export function TransactionHistory({
 }: TransactionHistoryProps) {
   if (transactions.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-12 text-muted-foreground">
         <p>No transactions yet. Create a new transaction to see it here.</p>
       </div>
     );
@@ -35,7 +35,7 @@ export function TransactionHistory({
         {transactions.map((transaction, index) => (
           <div
             key={index}
-            className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+            className="border rounded-lg p-4 hover:bg-accent cursor-pointer transition-colors"
             onClick={() => handleTransactionClick(transaction)}
           >
             <div className="flex justify-between items-start mb-2">
@@ -46,12 +46,12 @@ export function TransactionHistory({
                 </h3>
                 {transaction.source === "terminal" ? (
                   <MonitorSpeaker
-                    className="h-4 w-4 text-blue-600"
+                    className="h-4 w-4 text-blue-600 dark:text-blue-400"
                     aria-label="POS Terminal Transaction"
                   />
                 ) : (
                   <FileText
-                    className="h-4 w-4 text-green-600"
+                    className="h-4 w-4 text-green-600 dark:text-green-400"
                     aria-label="Form Transaction"
                   />
                 )}
@@ -66,14 +66,14 @@ export function TransactionHistory({
                 >
                   {transaction.status === "approved" ? "Approved" : "Declined"}
                 </Badge>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   {formatDateTime(transaction.timestamp)}
                 </p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
-                <p className="text-gray-500">Amount</p>
+                <p className="text-muted-foreground">Amount</p>
                 <p className="font-medium">
                   {formatCurrency(
                     Number.parseFloat(transaction.amount),
@@ -82,36 +82,36 @@ export function TransactionHistory({
                 </p>
               </div>
               <div>
-                <p className="text-gray-500">Card</p>
+                <p className="text-muted-foreground">Card</p>
                 <p>•••• {transaction.cardNumber.slice(-4)}</p>
               </div>
               <div>
-                <p className="text-gray-500">Terminal ID</p>
+                <p className="text-muted-foreground">Terminal ID</p>
                 <p>{transaction.terminalId}</p>
               </div>
               <div>
-                <p className="text-gray-500">Response Code</p>
+                <p className="text-muted-foreground">Response Code</p>
                 <p>{transaction.responseCode || "N/A"}</p>
               </div>
               {transaction.authCode && (
                 <div>
-                  <p className="text-gray-500">Auth Code</p>
+                  <p className="text-muted-foreground">Auth Code</p>
                   <p className="font-mono">{transaction.authCode}</p>
                 </div>
               )}
               <div>
-                <p className="text-gray-500">Currency</p>
+                <p className="text-muted-foreground">Currency</p>
                 <p>{transaction.currency}</p>
               </div>
               <div>
-                <p className="text-gray-500">Source</p>
+                <p className="text-muted-foreground">Source</p>
                 <p>
                   {transaction.source === "terminal" ? "POS Terminal" : "Form"}
                 </p>
               </div>
               {transaction.entryMode && (
                 <div>
-                  <p className="text-gray-500">Entry Mode</p>
+                  <p className="text-muted-foreground">Entry Mode</p>
                   <p>{transaction.entryMode}</p>
                 </div>
               )}

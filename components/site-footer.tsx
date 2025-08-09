@@ -2,11 +2,11 @@ import { Github } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t mt-8">
-      <div className="container mx-auto px-4 py-6 text-sm text-gray-600 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <footer className="border-t mt-8 bg-background">
+      <div className="container mx-auto px-4 py-6 text-sm text-muted-foreground flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <span className="mr-2">Contact:</span>
-          <a href="mailto:carlos@chiale.dev" className="text-blue-600 hover:underline">
+          <a href="mailto:carlos@chiale.dev" className="text-primary hover:underline">
             carlos@chiale.dev
           </a>
         </div>

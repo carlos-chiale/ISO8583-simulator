@@ -219,7 +219,7 @@ export function CardSelectionDialog({
                   "w-2.5 h-2.5 mx-1 rounded-full transition-all",
                   index === currentCardIndex
                     ? "bg-primary scale-125"
-                    : "bg-gray-300",
+                    : "bg-muted",
                   card.id === selectedCardId &&
                     "ring-2 ring-green-500 ring-offset-1"
                 )}
@@ -299,7 +299,7 @@ export function CardSelectionDialog({
               variant="outline"
               size="icon"
               aria-label="Previous card"
-              className="absolute top-1/2 -translate-y-1/2 -left-5 rounded-full bg-white/90 hover:bg-white shadow-lg z-10"
+              className="absolute top-1/2 -translate-y-1/2 -left-5 rounded-full bg-background/90 hover:bg-background shadow-lg z-10"
               onClick={handlePrevCard}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -310,7 +310,7 @@ export function CardSelectionDialog({
               variant="outline"
               size="icon"
               aria-label="Next card"
-              className="absolute top-1/2 -translate-y-1/2 -right-5 rounded-full bg-white/90 hover:bg-white shadow-lg z-10"
+              className="absolute top-1/2 -translate-y-1/2 -right-5 rounded-full bg-background/90 hover:bg-background shadow-lg z-10"
               onClick={handleNextCard}
             >
               <ChevronRight className="h-4 w-4" />
@@ -319,14 +319,14 @@ export function CardSelectionDialog({
 
           {/* Selected card summary */}
           {selectedCardId && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
               <div className="flex items-center">
                 <div className="mr-2">
-                  <Check className="h-4 w-4 text-green-600" />
+                  <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
                   <p className="text-sm font-medium">Currently Selected:</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     {cardOptions.find((card) => card.id === selectedCardId)
                       ?.name || "No card"}
                     (••••{" "}
@@ -345,23 +345,23 @@ export function CardSelectionDialog({
             <CardContent className="p-4">
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
-                  <p className="text-gray-500">Card Type</p>
+                  <p className="text-muted-foreground">Card Type</p>
                   <p className="font-medium capitalize">{currentCard.type}</p>
                 </div>
                 <div>
-                  <p className="text-gray-500">Network</p>
+                  <p className="text-muted-foreground">Network</p>
                   <p className="font-medium capitalize">
                     {currentCard.network}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500">PIN</p>
+                  <p className="text-muted-foreground">PIN</p>
                   <p className="font-mono font-medium">
                     {showCardDetails ? currentCard.pin : "••••"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500">Expiry</p>
+                  <p className="text-muted-foreground">Expiry</p>
                   <p className="font-medium">
                     {currentCard.expiryDate.slice(0, 2)}/
                     {currentCard.expiryDate.slice(2)}

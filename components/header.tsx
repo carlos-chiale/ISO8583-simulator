@@ -8,6 +8,7 @@ import {
 } from "@/components/card-selection-dialog";
 import { Button } from "@/components/ui/button";
 import { Wallet, Github } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { NetworkConfig } from "@/lib/network-service";
 
 interface HeaderProps {
@@ -40,13 +41,13 @@ export function Header({ onTerminalTransaction, networkConfig }: HeaderProps) {
     <>
       {/* Blur overlay when wallet is open */}
       {isWalletOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm z-40" />
+        <div className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40" />
       )}
 
-      <header className="bg-white border-b sticky top-0 z-10">
+      <header className="bg-background border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center">
-            <span className="font-bold text-base leading-tight sm:text-lg">
+            <span className="font-bold text-base leading-tight sm:text-lg text-foreground">
               ISO 8583 Transaction Simulator
             </span>
           </div>
@@ -66,7 +67,7 @@ export function Header({ onTerminalTransaction, networkConfig }: HeaderProps) {
                   <span className="text-sm sm:text-base">
                     {selectedCard.name.split(" ")[0]}
                   </span>
-                  <span className="hidden md:inline text-xs text-gray-500">
+                  <span className="hidden md:inline text-xs text-muted-foreground">
                     •••• {selectedCard.number.slice(-4)}
                   </span>
                 </>
@@ -95,6 +96,7 @@ export function Header({ onTerminalTransaction, networkConfig }: HeaderProps) {
                 <span className="hidden sm:inline">Check out the code!!</span>
               </a>
             </Button>
+            <ThemeToggle />
           </div>
         </div>
       </header>

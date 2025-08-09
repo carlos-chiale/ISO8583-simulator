@@ -19,10 +19,7 @@ export function NetworkStatus({
     <div className="flex items-center space-x-2">
       <Badge
         variant={config.enabled ? "success" : "outline"}
-        className={cn(
-          "flex items-center space-x-1 px-2 py-1",
-          config.enabled ? "bg-green-100 text-green-800 hover:bg-green-200" : ""
-        )}
+        className={cn("flex items-center space-x-1 px-2 py-1")}
       >
         {config.enabled ? (
           <>

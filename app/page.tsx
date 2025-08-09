@@ -54,13 +54,13 @@ export default function Home() {
             ISO 8583 Transaction Simulator
           </h1>
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Simulate financial transactions from Point of Sale (POS) terminals
               using the ISO 8583 message format.
               {networkConfig.enabled && (
-                <span className="ml-1 text-green-600">
+                <span className="ml-1 text-green-600 dark:text-green-400">
                   Transactions will be sent to{" "}
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">
+                  <code className="bg-muted px-1 py-0.5 rounded">
                     {networkConfig.useSSL ? "https" : "http"}://
                     {networkConfig.host}:{networkConfig.port}
                   </code>
