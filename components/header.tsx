@@ -1,0 +1,87 @@
+"use client"
+import { useState, useEffect } from "react"
+import { TerminalInterface } from "@/components/terminal-interface"
+import { CardSelectionDialog, type CardOption, cardOptions } from "@/components/card-selection-dialog"
+import { Button } from "@/components/ui/button"
+import { Wallet } from "lucide-react"
+import type { NetworkConfig } from "@/lib/network-service"
+
+interface HeaderProps {
+  onTerminalTransaction?: (transaction: any) => void
+  networkConfig?: NetworkConfig
+}
+
+export function Header({ onTerminalTransaction, networkConfig }: HeaderProps) {
+  const [isWalletOpen, setIsWalletOpen] = useState(false)
+  const [isNetworkConfigOpen, setIsNetworkConfigOpen] = useState(false)
+  const [selectedCard, setSelectedCard] = useState<CardOption | null>(null)
+
+  // Set default card on first load
+  useEffect(() => {
+    if (!selectedCard && cardOptions.length > 0) {
+      setSelectedCard(cardOptions[0])
+    }
+  }, [selectedCard])
+
+  const handleSelectCard = (card: CardOption) => {
+    setSelectedCard(card)
+    setIsWalletOpen(false)
+  }
+
+  const handleWalletClose = () => {
+    setIsWalletOpen(false)
+  }
+
+  return (
+    <>
+      {/* Blur overlay when wallet is open */}
+      {isWalletOpen && <div className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm z-40" />}
+
+      <header className="bg-white border-b sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center">
+            <span className="font-bold text-lg">ISO 8583 Simulator</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 relative"
+              onClick={() => setIsWalletOpen(true)}
+            >
+              {selectedCard ? (
+                <>
+                  <div
+                    className={`w-5 h-3 rounded-sm mr-1 bg-gradient-to-br ${selectedCard.color}`}
+                    aria-hidden="true"
+                  ></div>
+                  <span>{selectedCard.name.split(" ")[0]}</span>
+                  <span className="text-xs text-gray-500">•••• {selectedCard.number.slice(-4)}</span>
+                </>
+              ) : (
+                <>
+                  <Wallet className="h-4 w-4" />
+                  <span>Wallet</span>
+                </>
+              )}
+            </Button>
+            <TerminalInterface
+              standalone={true}
+              onTransactionComplete={onTerminalTransaction}
+              selectedCard={selectedCard}
+              networkConfig={networkConfig}
+            />
+          </div>
+        </div>
+      </header>
+
+      {/* Card Selection Dialog */}
+      <CardSelectionDialog
+        isOpen={isWalletOpen}
+        onClose={handleWalletClose}
+        onSelectCard={handleSelectCard}
+        selectedCardId={selectedCard?.id}
+      />
+    </>
+  )
+}
